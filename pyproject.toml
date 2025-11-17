@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jwave"
-version = "0.2.1"
+version = "0.2.2"
 description = "Fast and differentiable acoustic simulations in JAX."
 authors = [
   "Antonio Stanziola <a.stanziola@ucl.ac.uk>",
@@ -51,7 +51,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-jaxdf = "^0.2.8"
+jaxdf = "^0.3.0"
 matplotlib = "^3.0.0"
 
 [tool.poetry.group.dev.dependencies]
