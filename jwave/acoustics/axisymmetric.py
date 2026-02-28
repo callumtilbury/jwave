@@ -207,23 +207,19 @@ def _build_axisymmetric_operators(Nx, dx, Ny, dy, dt, c_ref):
     ky_vec = jnp.fft.fftfreq(Ny_exp, dy) * 2 * jnp.pi
 
     # Derivative operators for x (column vectors)
-    ddx_k_shift_pos = jnp.fft.ifftshift(
-        1j * kx_vec * jnp.exp(1j * kx_vec * dx / 2)
-    )[:, None]
-    ddx_k_shift_neg = jnp.fft.ifftshift(
-        1j * kx_vec * jnp.exp(-1j * kx_vec * dx / 2)
-    )[:, None]
+    ddx_k_shift_pos = (1j * kx_vec * jnp.exp(1j * kx_vec * dx / 2))[:, None]
+    ddx_k_shift_neg = (1j * kx_vec * jnp.exp(-1j * kx_vec * dx / 2))[:, None]
 
     # Derivative operator for y (row vectors)
-    ddy_k = jnp.fft.ifftshift(1j * ky_vec)[None, :]
+    ddy_k = (1j * ky_vec)[None, :]
 
     # Shift operators for y
-    y_shift_pos = jnp.fft.ifftshift(jnp.exp(1j * ky_vec * dy / 2))[None, :]
-    y_shift_neg = jnp.fft.ifftshift(jnp.exp(-1j * ky_vec * dy / 2))[None, :]
+    y_shift_pos = jnp.exp(1j * ky_vec * dy / 2)[None, :]
+    y_shift_neg = jnp.exp(-1j * ky_vec * dy / 2)[None, :]
 
     # k-space correction operator (sinc)
-    kx_grid = jnp.fft.ifftshift(kx_vec)[:, None]
-    ky_grid = jnp.fft.ifftshift(ky_vec)[None, :]
+    kx_grid = kx_vec[:, None]
+    ky_grid = ky_vec[None, :]
     k_magnitude = jnp.sqrt(kx_grid**2 + ky_grid**2)
     kappa = jnp.sinc(c_ref * k_magnitude * dt / (2 * jnp.pi))
 
@@ -347,8 +343,9 @@ def simulate_wave_propagation_as(
     dx, dy = medium.domain.dx
     dt = time_axis.dt
 
+    import jax
     # Reference sound speed
-    c_ref = settings.c_ref(medium)
+    c_ref = jax.lax.stop_gradient(settings.c_ref(medium))
 
     # Extract medium properties as arrays
     from jaxdf import Field
