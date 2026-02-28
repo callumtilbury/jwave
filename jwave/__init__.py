@@ -27,6 +27,7 @@ from jaxdf import (
 
 from .acoustics import (
   angular_spectrum,
+  AxialSymmetrySettings,
   born_iteration,
   born_series,
   db2neper,
@@ -43,6 +44,7 @@ from .acoustics import (
   scale_source_helmholtz,
   scattering_potential,
   simulate_wave_propagation,
+  simulate_wave_propagation_as,
   spectral,
   wave_propagation_symplectic_step,
   wavevector,

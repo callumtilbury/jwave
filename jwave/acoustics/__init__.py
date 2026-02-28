@@ -40,5 +40,10 @@ from .time_varying import (
   TimeWavePropagationSettings,
 )
 
+from .axisymmetric import (
+  AxialSymmetrySettings,
+  simulate_wave_propagation_as,
+)
+
 from . import spectral
 from . import pml
